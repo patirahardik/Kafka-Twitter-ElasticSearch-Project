@@ -22,15 +22,18 @@ auth = tw.OAuthHandler(consumer_key, consumer_secret_key)
 auth.set_access_token(access_key, access_secret_key)
 api = tw.API(auth, wait_on_rate_limit=True)
 
-search_words = 'Kafka is awesome'
+search_words = 'Modi'
 
 tweets = tw.Cursor(api.search,
                    q=search_words,
                    lang="en").items()
 
-
+#
 producer = KafkaProducer(bootstrap_servers=['127.0.0.1:9092'],
-                         value_serializer=lambda x: dumps(x).encode('utf-8'))
+                         value_serializer=lambda x: dumps(x).encode('utf-8'),
+                         acks='all',  # Required for safe producer
+                         retries=999999999999,  # Required for safe producer
+                         max_in_flight_requests_per_connection=5)  # Required for safe producer
 
 # Getting Producer's Configuration
 pprint.pprint(producer.config)
