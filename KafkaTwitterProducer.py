@@ -34,7 +34,9 @@ producer = KafkaProducer(bootstrap_servers=['127.0.0.1:9092'],
                          acks='all',  # Required for safe producer
                          retries=999999999999,  # Required for safe producer
                          max_in_flight_requests_per_connection=5,  # Required for safe producer
-                         compression_type='gzip')  # Required for safe producer
+                         compression_type='gzip',  # Required for high throughput producer
+                         linger_ms=20,  # Required for high throughput producer
+                         batch_size=32*1024)  # Required for high throughput producer
 
 # Compression best snappy,lz4... but test all other compression
 
