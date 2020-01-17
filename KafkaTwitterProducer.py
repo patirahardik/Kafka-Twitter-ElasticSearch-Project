@@ -33,7 +33,10 @@ producer = KafkaProducer(bootstrap_servers=['127.0.0.1:9092'],
                          value_serializer=lambda x: dumps(x).encode('utf-8'),
                          acks='all',  # Required for safe producer
                          retries=999999999999,  # Required for safe producer
-                         max_in_flight_requests_per_connection=5)  # Required for safe producer
+                         max_in_flight_requests_per_connection=5,  # Required for safe producer
+                         compression_type='gzip')  # Required for safe producer
+
+# Compression best snappy,lz4... but test all other compression
 
 # Getting Producer's Configuration
 pprint.pprint(producer.config)
