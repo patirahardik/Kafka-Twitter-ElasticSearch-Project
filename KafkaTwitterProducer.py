@@ -4,8 +4,10 @@ from configparser import ConfigParser
 from kafka import KafkaProducer
 import logging
 import pprint
+from time import sleep
 
-#Setting default logging
+
+# Setting default logging
 logging.basicConfig(level=logging.INFO)
 
 # Getting Keys for Twitter application
@@ -34,7 +36,6 @@ producer = KafkaProducer(bootstrap_servers=['127.0.0.1:9092'],
                          acks='all',  # Required for safe producer
                          retries=999999999999,  # Required for safe producer
                          max_in_flight_requests_per_connection=5,  # Required for safe producer
-                         compression_type='gzip',  # Required for high throughput producer
                          linger_ms=20,  # Required for high throughput producer
                          batch_size=32*1024)  # Required for high throughput producer
 
@@ -45,9 +46,9 @@ pprint.pprint(producer.config)
 
 # Getting Tweets
 for i in tweets:
-    message = "Tweet = " + i.text
-    print(message)
-    producer.send('Testing_Twitter', message)
+    print(i._json)
+    producer.send('Kafka_Tweets', i._json)
+    sleep(10)
 
 
 producer.flush()
