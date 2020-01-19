@@ -1,2 +1,5 @@
 kafka-python
 tweepy
+elasticsearch
+elasticsearch-dsl
+
